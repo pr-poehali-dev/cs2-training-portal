@@ -5,11 +5,13 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import Icon from '@/components/ui/icon';
 import ProfileModal from '@/components/ProfileModal';
+import WalletModal from '@/components/WalletModal';
 
 const Index = () => {
   const [activeSection, setActiveSection] = useState('home');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
+  const [showWallet, setShowWallet] = useState(false);
 
   const handleSteamLogin = () => {
     setIsLoggedIn(true);
@@ -121,6 +123,57 @@ const Index = () => {
     }
   ];
 
+  const upcomingTournaments = [
+    {
+      name: 'IEM Katowice 2025',
+      date: '5-16 февраля 2025',
+      prize: '$1,000,000',
+      teams: 24,
+      status: 'Скоро',
+      location: 'Катовице, Польша'
+    },
+    {
+      name: 'ESL Pro League S20',
+      date: '18-30 ноября 2024',
+      prize: '$850,000',
+      teams: 32,
+      status: 'Идёт',
+      location: 'Мальта'
+    },
+    {
+      name: 'BLAST Premier Spring 2025',
+      date: '22-26 января 2025',
+      prize: '$425,000',
+      teams: 8,
+      status: 'Скоро',
+      location: 'Копенгаген, Дания'
+    }
+  ];
+
+  const pastTournaments = [
+    {
+      name: 'BLAST Premier Fall Final 2024',
+      date: '27-30 октября 2024',
+      winner: 'Team Vitality',
+      prize: '$200,000',
+      flag: '🇫🇷'
+    },
+    {
+      name: 'IEM Rio Major 2024',
+      date: '11-23 октября 2024',
+      winner: 'FaZe Clan',
+      prize: '$500,000',
+      flag: '🇺🇸'
+    },
+    {
+      name: 'PGL Major Copenhagen 2024',
+      date: '17-31 марта 2024',
+      winner: 'Natus Vincere',
+      prize: '$1,000,000',
+      flag: '🇺🇦'
+    }
+  ];
+
   return (
     <div className="min-h-screen bg-background">
       <nav className="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-lg border-b border-border">
@@ -144,14 +197,24 @@ const Index = () => {
               ))}
             </div>
             {isLoggedIn ? (
-              <Button 
-                onClick={() => setShowProfile(true)}
-                className="hover-scale hover-glow"
-                variant="outline"
-              >
-                <Icon name="User" className="mr-2" size={18} />
-                ProGamer2024
-              </Button>
+              <div className="flex items-center gap-3">
+                <Button
+                  onClick={() => setShowWallet(true)}
+                  className="hover-scale"
+                  variant="outline"
+                >
+                  <Icon name="Wallet" className="mr-2" size={18} />
+                  1250 ₽
+                </Button>
+                <Button 
+                  onClick={() => setShowProfile(true)}
+                  className="hover-scale hover-glow"
+                  variant="outline"
+                >
+                  <Icon name="User" className="mr-2" size={18} />
+                  ProGamer2024
+                </Button>
+              </div>
             ) : (
               <Button 
                 onClick={handleSteamLogin}
@@ -346,6 +409,110 @@ const Index = () => {
         </div>
       </section>
 
+      <section className="py-16 px-4">
+        <div className="container mx-auto">
+          <div className="text-center mb-12">
+            <h3 className="text-3xl font-bold font-heading mb-4">🏆 Турниры CS2</h3>
+            <p className="text-muted-foreground">Следите за профессиональными турнирами и учитесь у лучших</p>
+          </div>
+          
+          <Tabs defaultValue="upcoming" className="w-full">
+            <TabsList className="grid w-full md:w-auto md:inline-grid grid-cols-2 mb-8">
+              <TabsTrigger value="upcoming" className="flex items-center gap-2">
+                <Icon name="CalendarClock" size={16} />
+                Будущие
+              </TabsTrigger>
+              <TabsTrigger value="past" className="flex items-center gap-2">
+                <Icon name="Trophy" size={16} />
+                Прошедшие
+              </TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="upcoming" className="space-y-4">
+              {upcomingTournaments.map((tournament, index) => (
+                <Card 
+                  key={index}
+                  className="hover-scale hover-glow border-border/50 bg-card/50 backdrop-blur"
+                >
+                  <CardContent className="p-6">
+                    <div className="flex items-start justify-between gap-4">
+                      <div className="flex-1">
+                        <div className="flex items-center gap-3 mb-2">
+                          <h4 className="text-xl font-bold font-heading">{tournament.name}</h4>
+                          <Badge className={
+                            tournament.status === 'Идёт' 
+                              ? 'bg-green-500/20 text-green-500 border-green-500/50' 
+                              : 'bg-primary/20 text-primary border-primary/50'
+                          }>
+                            {tournament.status}
+                          </Badge>
+                        </div>
+                        <div className="grid md:grid-cols-2 gap-3 text-sm">
+                          <div className="flex items-center gap-2 text-muted-foreground">
+                            <Icon name="Calendar" size={16} />
+                            <span>{tournament.date}</span>
+                          </div>
+                          <div className="flex items-center gap-2 text-muted-foreground">
+                            <Icon name="MapPin" size={16} />
+                            <span>{tournament.location}</span>
+                          </div>
+                          <div className="flex items-center gap-2 text-muted-foreground">
+                            <Icon name="DollarSign" size={16} />
+                            <span className="font-semibold text-primary">{tournament.prize}</span>
+                          </div>
+                          <div className="flex items-center gap-2 text-muted-foreground">
+                            <Icon name="Users" size={16} />
+                            <span>{tournament.teams} команд</span>
+                          </div>
+                        </div>
+                      </div>
+                      <Button variant="outline" className="hover-scale">
+                        <Icon name="ExternalLink" size={16} />
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </TabsContent>
+
+            <TabsContent value="past" className="space-y-4">
+              {pastTournaments.map((tournament, index) => (
+                <Card 
+                  key={index}
+                  className="hover-scale hover-glow border-border/50 bg-card/50 backdrop-blur"
+                >
+                  <CardContent className="p-6">
+                    <div className="flex items-start justify-between gap-4">
+                      <div className="flex-1">
+                        <h4 className="text-xl font-bold font-heading mb-2">{tournament.name}</h4>
+                        <div className="grid md:grid-cols-2 gap-3 text-sm">
+                          <div className="flex items-center gap-2 text-muted-foreground">
+                            <Icon name="Calendar" size={16} />
+                            <span>{tournament.date}</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <Icon name="Trophy" className="text-primary" size={16} />
+                            <span className="font-semibold">{tournament.flag} {tournament.winner}</span>
+                          </div>
+                          <div className="flex items-center gap-2 text-muted-foreground">
+                            <Icon name="DollarSign" size={16} />
+                            <span className="font-semibold text-primary">{tournament.prize}</span>
+                          </div>
+                        </div>
+                      </div>
+                      <Button variant="outline" className="hover-scale">
+                        <Icon name="PlayCircle" className="mr-2" size={16} />
+                        Реплей
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </TabsContent>
+          </Tabs>
+        </div>
+      </section>
+
       <section className="py-16 px-4 bg-card/30">
         <div className="container mx-auto">
           <div className="text-center mb-12">
@@ -379,6 +546,7 @@ const Index = () => {
       </section>
 
       <ProfileModal open={showProfile} onOpenChange={setShowProfile} />
+      <WalletModal open={showWallet} onOpenChange={setShowWallet} />
 
       <footer className="py-12 px-4 border-t border-border">
         <div className="container mx-auto text-center">
