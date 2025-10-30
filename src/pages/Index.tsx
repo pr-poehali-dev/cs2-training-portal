@@ -16,7 +16,10 @@ const Index = () => {
       duration: '4 часа',
       lessons: 12,
       description: 'Изучите базовые механики игры, управление и основы стрельбы',
-      image: 'https://cdn.poehali.dev/projects/ed481f78-94e9-4ff3-a8f8-984d085b6174/files/456211ce-abc3-480b-8c0d-f92e67ca5c6b.jpg'
+      image: 'https://cdn.poehali.dev/projects/ed481f78-94e9-4ff3-a8f8-984d085b6174/files/456211ce-abc3-480b-8c0d-f92e67ca5c6b.jpg',
+      price: 1990,
+      rank: 'Silver - Gold Nova',
+      features: ['Основы стрельбы', 'Управление', 'Базовая экономика', 'Знание карт']
     },
     {
       id: 2,
@@ -25,7 +28,10 @@ const Index = () => {
       duration: '6 часов',
       lessons: 18,
       description: 'Spray control, контрреколл и точная стрельба на всех дистанциях',
-      image: 'https://cdn.poehali.dev/projects/ed481f78-94e9-4ff3-a8f8-984d085b6174/files/028cb05a-6008-4487-be9d-1617dd3388f0.jpg'
+      image: 'https://cdn.poehali.dev/projects/ed481f78-94e9-4ff3-a8f8-984d085b6174/files/028cb05a-6008-4487-be9d-1617dd3388f0.jpg',
+      price: 3490,
+      rank: 'Master Guardian - Legendary Eagle',
+      features: ['Spray control', 'Контрреколл', 'Peek тактики', 'Утилиты и тайминги']
     },
     {
       id: 3,
@@ -34,7 +40,10 @@ const Index = () => {
       duration: '8 часов',
       lessons: 24,
       description: 'Командная игра, ротации и профессиональные стратегии',
-      image: 'https://cdn.poehali.dev/projects/ed481f78-94e9-4ff3-a8f8-984d085b6174/files/bafe94f0-51f7-4f29-8827-4e0dec8ea0d7.jpg'
+      image: 'https://cdn.poehali.dev/projects/ed481f78-94e9-4ff3-a8f8-984d085b6174/files/bafe94f0-51f7-4f29-8827-4e0dec8ea0d7.jpg',
+      price: 5990,
+      rank: 'Supreme - Global Elite',
+      features: ['Командная игра', 'Профи стратегии', 'Анализ демок', 'Менторство']
     }
   ];
 
@@ -148,8 +157,8 @@ const Index = () => {
       <section className="py-16 px-4 bg-card/30">
         <div className="container mx-auto">
           <div className="text-center mb-12 animate-slide-up">
-            <h3 className="text-3xl font-bold font-heading mb-4">Популярные курсы</h3>
-            <p className="text-muted-foreground">Выберите программу обучения по вашему уровню</p>
+            <h3 className="text-3xl font-bold font-heading mb-4">Платные курсы</h3>
+            <p className="text-muted-foreground">Выберите программу обучения в зависимости от вашего текущего ранга</p>
           </div>
           <div className="grid md:grid-cols-3 gap-6">
             {courses.map((course, index) => (
@@ -164,15 +173,22 @@ const Index = () => {
                     alt={course.title}
                     className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
                   />
-                  <div className="absolute top-4 right-4">
+                  <div className="absolute top-4 left-4">
                     <Badge className="bg-primary text-primary-foreground">
                       {course.level}
                     </Badge>
+                  </div>
+                  <div className="absolute top-4 right-4 bg-background/90 backdrop-blur px-3 py-1 rounded-lg">
+                    <span className="text-lg font-bold text-primary">{course.price} ₽</span>
                   </div>
                 </div>
                 <CardHeader>
                   <CardTitle className="font-heading">{course.title}</CardTitle>
                   <CardDescription>{course.description}</CardDescription>
+                  <div className="flex items-center gap-2 mt-2">
+                    <Icon name="Trophy" className="text-secondary" size={16} />
+                    <span className="text-sm font-medium text-secondary">{course.rank}</span>
+                  </div>
                 </CardHeader>
                 <CardContent>
                   <div className="flex items-center gap-4 text-sm text-muted-foreground mb-4">
@@ -185,8 +201,17 @@ const Index = () => {
                       <span>{course.lessons} уроков</span>
                     </div>
                   </div>
-                  <Button className="w-full hover-scale">
-                    Начать курс
+                  <div className="space-y-2 mb-4">
+                    {course.features.map((feature, idx) => (
+                      <div key={idx} className="flex items-center gap-2 text-sm">
+                        <Icon name="Check" className="text-primary" size={16} />
+                        <span>{feature}</span>
+                      </div>
+                    ))}
+                  </div>
+                  <Button className="w-full hover-scale hover-glow">
+                    <Icon name="ShoppingCart" className="mr-2" size={16} />
+                    Купить за {course.price} ₽
                   </Button>
                 </CardContent>
               </Card>
