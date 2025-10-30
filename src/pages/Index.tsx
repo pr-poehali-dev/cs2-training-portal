@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import Icon from '@/components/ui/icon';
 import ProfileModal from '@/components/ProfileModal';
 import WalletModal from '@/components/WalletModal';
+import ProConfigsSection from '@/components/ProConfigsSection';
 
 const Index = () => {
   const [activeSection, setActiveSection] = useState('home');
@@ -408,6 +409,8 @@ const Index = () => {
           </Tabs>
         </div>
       </section>
+
+      <ProConfigsSection />
 
       <section className="py-16 px-4">
         <div className="container mx-auto">
