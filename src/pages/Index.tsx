@@ -8,42 +8,57 @@ import Icon from '@/components/ui/icon';
 const Index = () => {
   const [activeSection, setActiveSection] = useState('home');
 
-  const courses = [
+  const subscriptions = [
     {
       id: 1,
-      title: 'Основы CS2 для новичков',
+      title: 'Базовая подписка',
       level: 'Начальный',
-      duration: '4 часа',
-      lessons: 12,
-      description: 'Изучите базовые механики игры, управление и основы стрельбы',
+      monthlyPrice: 490,
+      description: 'Доступ ко всем курсам для новичков и основным гайдам',
       image: 'https://cdn.poehali.dev/projects/ed481f78-94e9-4ff3-a8f8-984d085b6174/files/456211ce-abc3-480b-8c0d-f92e67ca5c6b.jpg',
-      price: 1990,
       rank: 'Silver - Gold Nova',
-      features: ['Основы стрельбы', 'Управление', 'Базовая экономика', 'Знание карт']
+      features: [
+        'Все курсы начального уровня',
+        'Базовые видеогайды',
+        'Доступ к сообществу',
+        'Новые материалы каждую неделю'
+      ],
+      popular: false
     },
     {
       id: 2,
-      title: 'Продвинутая стрельба',
+      title: 'Премиум подписка',
       level: 'Средний',
-      duration: '6 часов',
-      lessons: 18,
-      description: 'Spray control, контрреколл и точная стрельба на всех дистанциях',
+      monthlyPrice: 890,
+      description: 'Полный доступ к продвинутым курсам и персональным разборам',
       image: 'https://cdn.poehali.dev/projects/ed481f78-94e9-4ff3-a8f8-984d085b6174/files/028cb05a-6008-4487-be9d-1617dd3388f0.jpg',
-      price: 3490,
       rank: 'Master Guardian - Legendary Eagle',
-      features: ['Spray control', 'Контрреколл', 'Peek тактики', 'Утилиты и тайминги']
+      features: [
+        'Все курсы базового и среднего уровня',
+        'Продвинутые тактики',
+        'Разбор ваших игр (1 в месяц)',
+        'Приоритетная поддержка',
+        'Эксклюзивные вебинары'
+      ],
+      popular: true
     },
     {
       id: 3,
-      title: 'Профессиональные тактики',
+      title: 'Про подписка',
       level: 'Продвинутый',
-      duration: '8 часов',
-      lessons: 24,
-      description: 'Командная игра, ротации и профессиональные стратегии',
+      monthlyPrice: 1490,
+      description: 'Всё включено + индивидуальное менторство от про-игроков',
       image: 'https://cdn.poehali.dev/projects/ed481f78-94e9-4ff3-a8f8-984d085b6174/files/bafe94f0-51f7-4f29-8827-4e0dec8ea0d7.jpg',
-      price: 5990,
       rank: 'Supreme - Global Elite',
-      features: ['Командная игра', 'Профи стратегии', 'Анализ демок', 'Менторство']
+      features: [
+        'Доступ ко всем курсам и материалам',
+        'Личный тренер-наставник',
+        'Разбор игр без ограничений',
+        'Участие в закрытых турнирах',
+        'Индивидуальный план развития',
+        'Прямой чат с про-игроками'
+      ],
+      popular: false
     }
   ];
 
@@ -157,62 +172,67 @@ const Index = () => {
       <section className="py-16 px-4 bg-card/30">
         <div className="container mx-auto">
           <div className="text-center mb-12 animate-slide-up">
-            <h3 className="text-3xl font-bold font-heading mb-4">Платные курсы</h3>
-            <p className="text-muted-foreground">Выберите программу обучения в зависимости от вашего текущего ранга</p>
+            <h3 className="text-3xl font-bold font-heading mb-4">Подписки</h3>
+            <p className="text-muted-foreground">Выберите тариф в зависимости от вашего уровня игры. Отмена в любое время.</p>
           </div>
           <div className="grid md:grid-cols-3 gap-6">
-            {courses.map((course, index) => (
+            {subscriptions.map((sub, index) => (
               <Card 
-                key={course.id} 
-                className="hover-scale hover-glow overflow-hidden border-border/50 bg-card/50 backdrop-blur"
+                key={sub.id} 
+                className={`hover-scale hover-glow overflow-hidden bg-card/50 backdrop-blur relative ${
+                  sub.popular ? 'border-2 border-primary shadow-lg shadow-primary/20' : 'border-border/50'
+                }`}
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
+                {sub.popular && (
+                  <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
+                    <Badge className="bg-gradient-to-r from-primary to-secondary text-white px-4 py-1">
+                      ⭐ Популярный выбор
+                    </Badge>
+                  </div>
+                )}
                 <div className="relative h-48 overflow-hidden">
                   <img 
-                    src={course.image} 
-                    alt={course.title}
+                    src={sub.image} 
+                    alt={sub.title}
                     className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
                   />
                   <div className="absolute top-4 left-4">
                     <Badge className="bg-primary text-primary-foreground">
-                      {course.level}
+                      {sub.level}
                     </Badge>
-                  </div>
-                  <div className="absolute top-4 right-4 bg-background/90 backdrop-blur px-3 py-1 rounded-lg">
-                    <span className="text-lg font-bold text-primary">{course.price} ₽</span>
                   </div>
                 </div>
                 <CardHeader>
-                  <CardTitle className="font-heading">{course.title}</CardTitle>
-                  <CardDescription>{course.description}</CardDescription>
+                  <CardTitle className="font-heading">{sub.title}</CardTitle>
+                  <div className="flex items-baseline gap-2 my-3">
+                    <span className="text-4xl font-bold text-primary">{sub.monthlyPrice} ₽</span>
+                    <span className="text-muted-foreground">/месяц</span>
+                  </div>
+                  <CardDescription>{sub.description}</CardDescription>
                   <div className="flex items-center gap-2 mt-2">
                     <Icon name="Trophy" className="text-secondary" size={16} />
-                    <span className="text-sm font-medium text-secondary">{course.rank}</span>
+                    <span className="text-sm font-medium text-secondary">{sub.rank}</span>
                   </div>
                 </CardHeader>
                 <CardContent>
-                  <div className="flex items-center gap-4 text-sm text-muted-foreground mb-4">
-                    <div className="flex items-center gap-1">
-                      <Icon name="Clock" size={16} />
-                      <span>{course.duration}</span>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <Icon name="Video" size={16} />
-                      <span>{course.lessons} уроков</span>
-                    </div>
-                  </div>
-                  <div className="space-y-2 mb-4">
-                    {course.features.map((feature, idx) => (
-                      <div key={idx} className="flex items-center gap-2 text-sm">
-                        <Icon name="Check" className="text-primary" size={16} />
+                  <div className="space-y-3 mb-6">
+                    {sub.features.map((feature, idx) => (
+                      <div key={idx} className="flex items-start gap-2 text-sm">
+                        <Icon name="Check" className="text-primary mt-0.5 flex-shrink-0" size={16} />
                         <span>{feature}</span>
                       </div>
                     ))}
                   </div>
-                  <Button className="w-full hover-scale hover-glow">
-                    <Icon name="ShoppingCart" className="mr-2" size={16} />
-                    Купить за {course.price} ₽
+                  <Button className={`w-full hover-scale hover-glow ${
+                    sub.popular ? 'bg-gradient-to-r from-primary to-secondary' : ''
+                  }`}>
+                    <Icon name="Sparkles" className="mr-2" size={16} />
+                    Подписаться
                   </Button>
+                  <p className="text-xs text-center text-muted-foreground mt-3">
+                    Отмена в любой момент
+                  </p>
                 </CardContent>
               </Card>
             ))}
